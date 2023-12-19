@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/cjstarcc/go-zero-RWCache/store/cache"
+	"github.com/cjstarcc/go-zero-RWCache/store/redis"
 	"github.com/zeromicro/go-zero/core/mathx"
-	"github.com/zeromicro/go-zero/core/stores/cache"
-	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/syncx"
 	"github.com/zeromicro/go-zero/core/trace"
 	"go.opentelemetry.io/otel"
@@ -189,9 +189,9 @@ func (cc CachedConn) QueryWithExpireCtx(ctx context.Context, v interface{}, key 
 		return err
 	}
 	return cc.cache.SetWithExpireCtx(ctx, key, v, cc.aroundDuration(expire))
-	//return cc.cache.TakeWithSetExpireCtx(ctx, v, key, expire, func(val interface{}) error {
+	// return cc.cache.TakeWithSetExpireCtx(ctx, v, key, expire, func(val interface{}) error {
 	//	return query(cc.db.WithContext(ctx), v)
-	//})
+	// })
 }
 func (cc CachedConn) aroundDuration(duration time.Duration) time.Duration {
 	return cc.unstableExpiryTime.AroundDuration(duration)
